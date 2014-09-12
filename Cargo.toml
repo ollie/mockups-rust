@@ -1,0 +1,13 @@
+[package]
+
+name = "mockups"
+version = "0.0.0"
+authors = ["Oldrich Vetesnik <oldrich.vetesnik@gmail.com>"]
+
+[dependencies.image]
+
+git = "https://github.com/PistonDevelopers/rust-image.git"
+
+# [dependencies.rust-mustache]
+#
+# git = "https://github.com/erickt/rust-mustache"
