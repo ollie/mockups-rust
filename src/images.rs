@@ -1,10 +1,6 @@
-// use std::io::File;
+//! Copy images and resize them by half.
 
-// use glob::{
-//     glob_with,
-//     Paths,
-//     MatchOptions,
-// };
+// use std::io::File;
 
 // use image;
 
@@ -12,6 +8,37 @@
 //     GenericImage,
 //     imageops,
 // };
+
+use structure::{
+    Category,
+    // Image,
+};
+
+use utils::{
+    create_dir,
+};
+
+pub fn generate_thumbs(project_path: &Path, categories: &Vec<Category>) {
+    let thumbs_path = project_path.join("site").join("thumbs");
+
+    // Create thumbs directory
+    create_dir(&thumbs_path);
+
+    for category in categories.iter() {
+        let category_path = thumbs_path.join(category.file.clone());
+
+        // The site/thumbs/iphone-portrait directory
+        create_dir(&category_path);
+
+        for section in category.sections.iter() {
+            for image in section.images.iter() {
+                // spawn(proc() {
+                    println!("{}", image.file);
+                // });
+            }
+        }
+    }
+}
 
 // pub fn resize_list(directory_path: Path) {
 //     let mut images_list = list_images(directory_path);

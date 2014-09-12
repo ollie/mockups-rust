@@ -72,15 +72,23 @@
 
 #![feature(phase)]
 
+// Shipped with Rust
 extern crate getopts;
 #[phase(plugin)]
 extern crate regex_macros;
 extern crate regex;
+extern crate serialize;
+
+// External libraries
+extern crate url;
 extern crate image;
+extern crate mustache;
 
 mod options;
 mod structure;
 mod site;
+mod images;
+mod utils;
 
 fn main() {
     let options        = options::get_options();
@@ -89,18 +97,5 @@ fn main() {
 
     structure::read_directories(&project_path, &mut categories);
     site::generate(&project_path, &categories);
-
-    // for category in categories.iter() {
-    //     println!("{} ({})", category.file, category.name);
-
-    //     for section in category.sections.iter() {
-    //         println!("  |- {} ({})", section.file, section.name);
-
-    //         for image in section.images.iter() {
-    //             println!("  |    |- {}", image.file);
-    //         }
-    //     }
-
-    //     println!("");
-    // }
+    images::generate_thumbs(&project_path, &categories);
 }

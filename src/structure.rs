@@ -3,25 +3,31 @@
 use std::collections::HashMap;
 use std::io::fs;
 use std::char;
+use url::percent_encoding::{
+    FORM_URLENCODED_ENCODE_SET,
+    utf8_percent_encode,
+};
 
-#[deriving(Show)]
+#[deriving(Encodable)]
 pub struct Category {
     pub file:     String,
     pub name:     String,
     pub sections: Vec<Section>,
 }
 
-#[deriving(Show)]
+#[deriving(Encodable)]
 pub struct Section {
     pub file:   String,
     pub name:   String,
     pub images: Vec<Image>,
 }
 
-#[deriving(Show)]
+#[deriving(Encodable)]
 pub struct Image {
-    pub file:   String,
-    pub number: u8,
+    pub category: String,
+    pub file:     String,
+    pub file_url: String,
+    pub number:   u8,
 }
 
 impl Category {
@@ -38,14 +44,14 @@ impl Category {
 
         for section in self.sections.mut_iter() {
             if section.file == section_file_w_ext {
-                section.images.push(Image::new(filename, number));
+                section.images.push(Image::new(self.file.clone(), filename, number));
                 return;
             }
         }
 
         let section_name = self.name_from_file(section_file.clone());
         let mut section  = Section::new(section_file_w_ext, section_name);
-        section.images.push(Image::new(filename, number));
+        section.images.push(Image::new(self.file.clone(), filename, number));
         self.sections.push(section);
     }
 
@@ -76,10 +82,12 @@ impl Section {
 }
 
 impl Image {
-    fn new(file: &str, number: u8) -> Image {
+    fn new(category: String, file: &str, number: u8) -> Image {
         Image {
-            file:   file.to_string(),
-            number: number
+            category: category,
+            file:     String::from_str(file),
+            file_url: utf8_percent_encode(file.as_slice(), FORM_URLENCODED_ENCODE_SET),
+            number:   number
         }
     }
 }
