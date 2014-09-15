@@ -3,6 +3,18 @@
 Walk down a project directory and generate a static HTML site containing
 resized images.
 
+## Usage
+
+Go to the [releases][releases] section and download the latest binary to your
+favorite location, say "Downloads", then open Terminal and enter:
+
+    $ cd Downloads
+    $ ./mockups -d "path/to/Your Project"
+
+Note: You may want to simply type `./mockups -d ` and then drag and drop
+your project directory from Finder into the Terminal and it will fill in
+the path to it.
+
 ## File structure before site is generated
 
     Project Name
@@ -63,25 +75,24 @@ resized images.
                 |- section-a.html
                 +- section-b.html
 
-## Usage
+## Installation
 
-    $ mockups -d "~/path/to/Project Name"
-
-## Dependencies
+Install dependencies:
 
 * [Rust][rust-url]
 * [Cargo][cargo-url]
 
-[rust-url]:  https://github.com/rust-lang/rust
-[cargo-url]: https://github.com/rust-lang/cargo
+And then build the crate:
 
-### Installation
-
-    $ git clone ...
-    $ cd ...
-    $ cargo build
-    $ cargo build --release # Optimized binary
+    $ git clone https://github.com/ollie/mockups-rust mockups
+    $ cd mockups
+    $ cargo build           # Not optimized binary in target/mockups
+    $ cargo build --release # Optimized binary in target/mockups/release
 
 ## TODO
 
 * Refactor site generator a bit?
+
+[releases]:  https://github.com/ollie/mockups-rust/releases
+[rust-url]:  https://github.com/rust-lang/rust
+[cargo-url]: https://github.com/rust-lang/cargo

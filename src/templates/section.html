@@ -7,23 +7,30 @@
   <body>
 
     <header>
-      <a href="../index.html">
-        <img src="../../icon.png" alt="">
-      </a>
-      <p>{{app_name}}</p>
-      <p>Tapmates</p>
-      <img src="../img/logo.png" alt="">
+      <div class="app-brand">
+        <a href="../index.html">
+          <img src="../../icon.png" alt="">
+          <span>
+            {{app_name}}
+          </span>
+        </a>
+      </div>
+
+      <div class="brand">
+        <p>Tapmates</p>
+        <img src="../img/logo.png" alt="">
+      </div>
     </header>
 
     <aside>
-      <ul id="js-categories-list" class="categories-list">
+      <ul id="js-categories-menu" class="categories-menu">
       {{#categories}}
         <li class="{{file}}">
           <a href="../{{file}}/index.html">{{name}}</a>
         </li>
       {{/categories}}
       </ul>
-      <ul id="js-sections-list" class="sections-list">
+      <ul id="js-sections-menu" class="sections-menu">
       {{#sections}}
         <li class="{{class}}">
           <a href="{{file}}">{{name}}</a>
@@ -42,22 +49,22 @@
         {{name}}
       {{/section}}
       </h1>
-    {{#images}}
-      <div class="detail-item">
-        <p>
+      <ul class="images-list">
+      {{#images}}
+        <li class="image-item">
           <a href="../../{{category}}/{{file_url}}">
-            <img width="200" src="../../{{category}}/{{file_url}}" alt="">
+            <img src="../thumbs/{{category}}/{{file_url}}" alt="">
           </a>
-        </p>
-        <p>{{number}}</p>
-      </div>
-    {{/images}}
+          <p>{{number}}</p>
+        </li>
+      {{/images}}
+      </ul>
     </main>
 
     <script src="../js/mockups.js"></script>
     <script>
-      markItemAsSelected('js-categories-list', '{{#category}}{{file}}{{/category}}');
-      markItemAsSelected('js-sections-list',   '{{#section}}{{class}}{{/section}}');
+      markItemAsSelected('js-categories-menu', '{{#category}}{{file}}{{/category}}');
+      markItemAsSelected('js-sections-menu',   '{{#section}}{{class}}{{/section}}');
     </script>
 
   </body>

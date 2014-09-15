@@ -7,16 +7,23 @@
   <body>
 
     <header>
-      <a href="index.html">
-        <img src="../../icon.png" alt="">
-      </a>
-      <p>{{app_name}}</p>
-      <p>Tapmates</p>
-      <img src="img/logo.png" alt="">
+      <div class="app-brand">
+        <a href="index.html">
+          <img src="../../icon.png" alt="">
+          <span>
+            {{app_name}}
+          </span>
+        </a>
+      </div>
+
+      <div class="brand">
+        <p>Tapmates</p>
+        <img src="img/logo.png" alt="">
+      </div>
     </header>
 
     <aside>
-      <ul id="js-categories-list" class="categories-list">
+      <ul id="js-categories-menu" class="categories-menu">
       {{#categories}}
         <li>
           <a href="{{file}}/index.html">{{name}}</a>

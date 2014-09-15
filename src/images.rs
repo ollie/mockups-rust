@@ -50,8 +50,7 @@ pub fn generate_thumbs(project_path: &Path, categories: &Vec<Category>) {
 fn resize_image(source_image_path: Path, target_image_path: Path) {
     let img             = image::open(&source_image_path).unwrap();
     let (width, height) = img.dimensions();
-    let nwidth          = 320;
-    // let nwidth          = width / 2;
+    let nwidth          = width / 2;
     let ratio           = nwidth as f64 / width as f64;
     let nheight         = (height as f64 * ratio).round() as u32;
     let resized_img     = img.resize(nwidth, nheight, imageops::Nearest);
