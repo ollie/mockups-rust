@@ -5,6 +5,8 @@ use std::io::{
     IoResult,
 };
 
+use mustache;
+
 use structure::{
     Category,
     Section,
@@ -15,8 +17,6 @@ use utils::{
     create_dir,
     create_file,
 };
-
-use mustache;
 
 #[deriving(Encodable)]
 struct SiteData<'a> {
@@ -42,6 +42,9 @@ struct SectionData<'a> {
     images:     &'a Vec<Image>,
 }
 
+/// Generate the HTML file and directory structure. External assets like
+/// styles, images and JavaScripts need to be embedded in the binary
+/// as they are not available at run-time.
 pub fn generate(project_path: &Path, categories: &Vec<Category>) {
     let site_path = project_path.join("site");
 

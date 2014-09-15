@@ -1,6 +1,9 @@
+//! Handles CLI options parsing and errors.
+
 use getopts;
 use std::os;
 
+/// Parse CLI options and return them.
 pub fn get_options() -> getopts::Matches {
     let args          = os::args();
     let first_arg     = args[0].clone();
@@ -11,6 +14,7 @@ pub fn get_options() -> getopts::Matches {
     process_options(program, option_args)
 }
 
+/// Define individual options, fail if incorrect.
 pub fn process_options(program: &str, option_args: &[String]) -> getopts::Matches {
     let opts = [
         getopts::reqopt("d",  "dir",  "set path to images directory", "PATH"),

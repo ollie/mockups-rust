@@ -1,3 +1,5 @@
+//! Just a bunch of cross-module functions.
+
 use std::io::{
     fs,
     File,

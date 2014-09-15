@@ -2,10 +2,6 @@
 
 use std::io::File;
 
-use structure::{
-    Category,
-};
-
 use image;
 
 use image::{
@@ -13,10 +9,11 @@ use image::{
     imageops,
 };
 
-use utils::{
-    create_dir,
-};
+use structure::Category;
+use utils::create_dir;
 
+/// Generate smaller versions of mockup images.
+/// `iphone-portrait/XY-[section-a]-0.png -> site/thumbs/iphone-portrait/XY-[section-a]-0.png`
 pub fn generate_thumbs(project_path: &Path, categories: &Vec<Category>) {
     let thumbs_path = project_path.join("site").join("thumbs");
 
