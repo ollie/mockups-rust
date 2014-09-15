@@ -8,7 +8,7 @@
 //!   |- icon.png
 //!   |- iphone-portrait
 //!   |    |- XY-[section-a]-0.png
-//!   |    |- XY-[section-a]-1.png
+//!   |    +- XY-[section-a]-1.png
 //!   |- iphone-landscape
 //!   |    |- XY-[section-a]-0.png
 //!   |    +- XY-[section-b]-0.png
@@ -26,7 +26,7 @@
 //!   |- icon.png
 //!   |- iphone-portrait
 //!   |    |- XY-[section-a]-0.png
-//!   |    |- XY-[section-a]-1.png
+//!   |    +- XY-[section-a]-1.png
 //!   |- iphone-landscape
 //!   |    |- XY-[section-a]-0.png
 //!   |    +- XY-[section-b]-0.png
@@ -39,7 +39,7 @@
 //!        |- thumbs
 //!        |    |- iphone-portrait
 //!        |    |    |- XY-[section-a]-0.png
-//!        |    |    |- XY-[section-a]-1.png
+//!        |    |    +- XY-[section-a]-1.png
 //!        |    |- iphone-landscape
 //!        |    |    |- XY-[section-a]-0.png
 //!        |    |    +- XY-[section-b]-0.png
@@ -60,6 +60,7 @@
 //!        |    |- index.html
 //!        |    +- section-b.html
 //!        +- ipad-landscape
+//!             |- index.html
 //!             |- section-a.html
 //!             +- section-b.html
 //! ```
