@@ -1,6 +1,6 @@
 [root]
 name = "mockups"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "image 0.0.0 (git+https://github.com/PistonDevelopers/rust-image.git#d06de6eeb638f5f8516fca214fb5e9fc07c33987)",
  "rust-mustache 0.3.0 (git+https://github.com/tomaka/rust-mustache.git#ab6b6657716d77a0c40e5218f9834fc3c68254a3)",
