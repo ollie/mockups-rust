@@ -51,7 +51,7 @@ pub fn generate(project_path: &Path, categories: &Vec<Category>) {
     // The site directory
     create_dir(&site_path);
 
-    // CSS files
+    // CSS files and images
     copy_assets(&site_path);
 
     // The site/index.html file
@@ -81,16 +81,36 @@ pub fn generate(project_path: &Path, categories: &Vec<Category>) {
 }
 
 fn copy_assets(site_path: &Path) {
-    let css_path = site_path.join("css");
-    create_dir(&css_path);
-    copy_mockups_css(&css_path);
+    copy_mockups_css(site_path.join("css"));
+    copy_mockups_js(site_path.join("js"));
+    copy_logo_img(site_path.join("img"));
 }
 
-fn copy_mockups_css(css_path: &Path) {
+fn copy_mockups_css(css_path: Path) {
+    create_dir(&css_path);
+
     let target_path     = Path::new(css_path.join("mockups.css"));
     let mut target_file = File::create(&target_path).unwrap();
     let data            = include_str!("css/mockups.css");
     let _               = target_file.write(data.as_bytes()).unwrap();
+}
+
+fn copy_mockups_js(js_path: Path) {
+    create_dir(&js_path);
+
+    let target_path     = Path::new(js_path.join("mockups.js"));
+    let mut target_file = File::create(&target_path).unwrap();
+    let data            = include_str!("js/mockups.js");
+    let _               = target_file.write(data.as_bytes()).unwrap();
+}
+
+fn copy_logo_img(img_path: Path) {
+    create_dir(&img_path);
+
+    let target_path     = Path::new(img_path.join("logo.png"));
+    let mut target_file = File::create(&target_path).unwrap();
+    let data            = include_bin!("img/logo.png");
+    let _               = target_file.write(data).unwrap();
 }
 
 fn fill_in_site_index_file(

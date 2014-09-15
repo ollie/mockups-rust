@@ -7,13 +7,16 @@
   <body>
 
     <header>
-      <img src="../../icon.png" alt="">
+      <a href="index.html">
+        <img src="../../icon.png" alt="">
+      </a>
       <p>{{app_name}}</p>
       <p>Tapmates</p>
+      <img src="img/logo.png" alt="">
     </header>
 
     <aside>
-      <ul>
+      <ul id="js-categories-list" class="categories-list">
       {{#categories}}
         <li>
           <a href="{{file}}/index.html">{{name}}</a>
@@ -25,6 +28,8 @@
     <main>
       <h1>Hello :)</h1>
     </main>
+
+    <script src="js/mockups.js"></script>
 
   </body>
 </html>

@@ -19,6 +19,7 @@ pub struct Category {
 pub struct Section {
     pub file:   String,
     pub name:   String,
+    pub class:  String,
     pub images: Vec<Image>,
 }
 
@@ -50,7 +51,7 @@ impl Category {
         }
 
         let section_name = self.name_from_file(section_file.clone());
-        let mut section  = Section::new(section_file_w_ext, section_name);
+        let mut section  = Section::new(section_file_w_ext, section_name, section_file);
         section.images.push(Image::new(self.file.clone(), filename, number));
         self.sections.push(section);
     }
@@ -72,10 +73,11 @@ impl Category {
 }
 
 impl Section {
-    fn new(file: String, name: String) -> Section {
+    fn new(file: String, name: String, class: String) -> Section {
         Section {
             file:   file,
             name:   name,
+            class:  class,
             images: Vec::new(),
         }
     }

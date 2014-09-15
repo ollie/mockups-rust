@@ -1,26 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>{{app_name}}</title>
+    <title>{{#category}}{{name}}{{/category}} &gt; {{#section}}{{name}}{{/section}} &ndash; {{app_name}}</title>
     <link rel="stylesheet" href="../css/mockups.css">
   </head>
   <body>
 
     <header>
-      <img src="../../icon.png" alt="">
+      <a href="../index.html">
+        <img src="../../icon.png" alt="">
+      </a>
       <p>{{app_name}}</p>
       <p>Tapmates</p>
+      <img src="../img/logo.png" alt="">
     </header>
 
     <aside>
-      <ul>
+      <ul id="js-categories-list" class="categories-list">
       {{#categories}}
-        <li><a href="../{{file}}/index.html">{{name}}</a></li>
+        <li class="{{file}}">
+          <a href="../{{file}}/index.html">{{name}}</a>
+        </li>
       {{/categories}}
       </ul>
-      <ul>
+      <ul id="js-sections-list" class="sections-list">
       {{#sections}}
-        <li><a href="{{file}}">{{name}}</a></li>
+        <li class="{{class}}">
+          <a href="{{file}}">{{name}}</a>
+        </li>
       {{/sections}}
       </ul>
     </aside>
@@ -46,6 +53,12 @@
       </div>
     {{/images}}
     </main>
+
+    <script src="../js/mockups.js"></script>
+    <script>
+      markItemAsSelected('js-categories-list', '{{#category}}{{file}}{{/category}}');
+      markItemAsSelected('js-sections-list',   '{{#section}}{{class}}{{/section}}');
+    </script>
 
   </body>
 </html>

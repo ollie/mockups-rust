@@ -81,3 +81,7 @@ resized images.
     $ cd ...
     $ cargo build
     $ cargo build --release # Optimized binary
+
+## TODO
+
+* Refactor site generator a bit?
