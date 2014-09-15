@@ -20,7 +20,7 @@ favorite location, say "Downloads", then open Terminal and enter:
     $ cd Downloads
     $ ./mockups -d "path/to/Your Project"
 
-Note: You may want to simply type `./mockups -d ` and then drag and drop
+Note: You may want to simply type `./mockups -d` and then drag and drop
 your project directory from Finder into the Terminal and it will fill in
 the path to it.
 
@@ -113,7 +113,7 @@ the path to it.
 
 ### File structure after site is generated
 
-    Project Name
+    Awesome Mail Client
       |- icon.png
       |- iphone-portrait
       |    |- MC-[inbox]-0.png
