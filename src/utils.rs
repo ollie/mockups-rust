@@ -10,7 +10,7 @@ pub fn create_dir(path: &Path) {
         return;
     }
 
-    let _ = fs::mkdir(path, UserDir);
+    let _ = fs::mkdir(path, UserDir).unwrap();
 }
 
 pub fn create_file(path: &Path) -> IoResult<File> {

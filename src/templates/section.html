@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{{app_name}}</title>
+    <link rel="stylesheet" href="../css/mockups.css">
+  </head>
+  <body>
+
+    <header>
+      <img src="../../icon.png" alt="">
+      <p>{{app_name}}</p>
+      <p>Tapmates</p>
+    </header>
+
+    <aside>
+      <ul>
+      {{#categories}}
+        <li><a href="../{{file}}/index.html">{{name}}</a></li>
+      {{/categories}}
+      </ul>
+      <ul>
+      {{#sections}}
+        <li><a href="{{file}}">{{name}}</a></li>
+      {{/sections}}
+      </ul>
+    </aside>
+
+    <main>
+      <h1>
+      {{#category}}
+        <a href="../{{file}}/index.html">{{name}}</a>
+      {{/category}}
+        &gt;
+      {{#section}}
+        {{name}}
+      {{/section}}
+      </h1>
+    {{#images}}
+      <div class="detail-item">
+        <p>
+          <a href="../../{{category}}/{{file_url}}">
+            <img width="200" src="../../{{category}}/{{file_url}}" alt="">
+          </a>
+        </p>
+        <p>{{number}}</p>
+      </div>
+    {{/images}}
+    </main>
+
+  </body>
+</html>
