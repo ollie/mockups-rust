@@ -117,10 +117,10 @@ fn copy_logo_img(img_path: Path) {
 }
 
 fn fill_in_site_index_file(
-        file_result: IoResult<File>,
-        app_name:    &str,
-        categories:  &Vec<Category>
-    ) {
+    file_result: IoResult<File>,
+    app_name:    &str,
+    categories:  &Vec<Category>
+) {
     let mut file = file_result.unwrap();
 
     let data = SiteData {
@@ -133,11 +133,11 @@ fn fill_in_site_index_file(
 }
 
 fn fill_in_category_index_file(
-        file_result: IoResult<File>,
-        app_name:    &str,
-        categories:  &Vec<Category>,
-        category:    &Category
-    ) {
+    file_result: IoResult<File>,
+    app_name:    &str,
+    categories:  &Vec<Category>,
+    category:    &Category
+) {
     let mut file = file_result.unwrap();
 
     let data = CategoryData {
@@ -152,12 +152,12 @@ fn fill_in_category_index_file(
 }
 
 fn fill_in_section_file(
-        file_result: IoResult<File>,
-        app_name:    &str,
-        categories:  &Vec<Category>,
-        category:    &Category,
-        section:     &Section
-    ) {
+    file_result: IoResult<File>,
+    app_name:    &str,
+    categories:  &Vec<Category>,
+    category:    &Category,
+    section:     &Section
+) {
     let mut file = file_result.unwrap();
 
     let data = SectionData {
