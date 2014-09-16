@@ -7,6 +7,8 @@ use std::io::{
     IoResult,
 };
 
+use std::io::fs::PathExtensions;
+
 pub fn create_dir(path: &Path) {
     if path.is_dir() {
         return;

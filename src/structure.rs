@@ -3,6 +3,7 @@
 
 use std::collections::HashMap;
 use std::io::fs;
+use std::io::fs::PathExtensions;
 use std::char;
 
 use url::percent_encoding::{
