@@ -3,7 +3,7 @@ name = "mockups"
 version = "0.0.3"
 dependencies = [
  "image 0.0.0 (git+https://github.com/PistonDevelopers/rust-image.git#d06de6eeb638f5f8516fca214fb5e9fc07c33987)",
- "rust-mustache 0.3.0 (git+https://github.com/tomaka/rust-mustache.git#ab6b6657716d77a0c40e5218f9834fc3c68254a3)",
+ "rust-mustache 0.3.0 (git+https://github.com/erickt/rust-mustache.git#687d8fa41f998ec73c891de3f8ef41b4d3dc7b32)",
  "url 0.1.0 (git+https://github.com/servo/rust-url.git#bfdf809365600a7941a77524f9bb065886de3379)",
 ]
 
@@ -20,7 +20,7 @@ source = "git+https://github.com/PistonDevelopers/rust-image.git#d06de6eeb638f5f
 [[package]]
 name = "rust-mustache"
 version = "0.3.0"
-source = "git+https://github.com/tomaka/rust-mustache.git#ab6b6657716d77a0c40e5218f9834fc3c68254a3"
+source = "git+https://github.com/erickt/rust-mustache.git#687d8fa41f998ec73c891de3f8ef41b4d3dc7b32"
 
 [[package]]
 name = "url"

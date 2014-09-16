@@ -14,6 +14,4 @@ git = "https://github.com/PistonDevelopers/rust-image.git"
 
 [dependencies.rust-mustache]
 
-# TODO: Check later if upstream has been fixed
-# git = "https://github.com/erickt/rust-mustache.git"
-git = "https://github.com/tomaka/rust-mustache.git"
+git = "https://github.com/erickt/rust-mustache.git"
