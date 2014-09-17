@@ -29,7 +29,8 @@ the path to it.
 ### File structure before site is generated
 
     Project Name
-      |- icon.png
+      |- mockups
+      |    +- icon.png
       |- iphone-portrait
       |    |- XY-[section-a]-0.png
       |    +- XY-[section-a]-1.png
@@ -45,7 +46,8 @@ the path to it.
 ### File structure after site is generated
 
     Project Name
-      |- icon.png
+      |- mockups
+      |    +- icon.png
       |- iphone-portrait
       |    |- XY-[section-a]-0.png
       |    +- XY-[section-a]-1.png
@@ -71,6 +73,13 @@ the path to it.
            |         |- XY-[section-a]-0.png
            |         +- XY-[section-b]-0.png
            |- index.html
+           |- css
+           |    +- styles.css
+           |- img
+           |    |- icon.png
+           |    +- logo.png
+           |- js
+           |    +- mockups.js
            |- iphone-portrait
            |    |- index.html
            |    +- section-a.html
@@ -91,7 +100,8 @@ the path to it.
 ### File structure before site is generated
 
     Awesome Mail Client
-      |- icon.png
+      |- mockups
+      |    +- icon.png
       |- iphone-portrait
       |    |- MC-[inbox]-0.png
       |    |- MC-[inbox]-1.png
@@ -114,7 +124,8 @@ the path to it.
 ### File structure after site is generated
 
     Awesome Mail Client
-      |- icon.png
+      |- mockups
+      |    +- icon.png
       |- iphone-portrait
       |    |- MC-[inbox]-0.png
       |    |- MC-[inbox]-1.png
@@ -154,6 +165,13 @@ the path to it.
            |         |- MC-[account-detail]-0.png
            |         +- MC-[account-detail]-1.png
            |- index.html
+           |- css
+           |    +- styles.css
+           |- img
+           |    |- icon.png
+           |    +- logo.png
+           |- js
+           |    +- mockups.js
            |- iphone-portrait
            |    |- index.html
            |    |- inbox.html

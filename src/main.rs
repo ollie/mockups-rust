@@ -5,7 +5,8 @@
 //!
 //! ```
 //! Project Name
-//!   |- icon.png
+//!   |- mockups
+//!   |    +- icon.png
 //!   |- iphone-portrait
 //!   |    |- XY-[section-a]-0.png
 //!   |    +- XY-[section-a]-1.png
@@ -23,7 +24,8 @@
 //!
 //! ```
 //! Project Name
-//!   |- icon.png
+//!   |- mockups
+//!   |    +- icon.png
 //!   |- iphone-portrait
 //!   |    |- XY-[section-a]-0.png
 //!   |    +- XY-[section-a]-1.png
@@ -49,6 +51,13 @@
 //!        |         |- XY-[section-a]-0.png
 //!        |         +- XY-[section-b]-0.png
 //!        |- index.html
+//!        |- css
+//!        |    +- styles.css
+//!        |- img
+//!        |    |- icon.png
+//!        |    +- logo.png
+//!        |- js
+//!        |    +- mockups.js
 //!        |- iphone-portrait
 //!        |    |- index.html
 //!        |    +- section-a.html
