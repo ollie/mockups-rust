@@ -103,7 +103,7 @@ fn copy_styles_css(css_path: Path) {
     create_dir(&css_path);
 
     let target_path     = Path::new(css_path.join("styles.css"));
-    let mut target_file = File::create(&target_path).unwrap();
+    let mut target_file = File::create(&target_path);
     let data            = include_str!("css/styles.css");
     let _               = target_file.write(data.as_bytes()).unwrap();
 }
@@ -113,7 +113,7 @@ fn copy_styles_css(css_path: Path) {
 //     create_dir(&css_path);
 //
 //     let target_path     = Path::new(css_path.join("styles.less"));
-//     let mut target_file = File::create(&target_path).unwrap();
+//     let mut target_file = File::create(&target_path);
 //     let data            = include_str!("css/styles.less");
 //     let _               = target_file.write(data.as_bytes()).unwrap();
 // }
@@ -122,7 +122,7 @@ fn copy_mockups_js(js_path: Path) {
     create_dir(&js_path);
 
     let target_path     = Path::new(js_path.join("mockups.js"));
-    let mut target_file = File::create(&target_path).unwrap();
+    let mut target_file = File::create(&target_path);
     let data            = include_str!("js/mockups.js");
     let _               = target_file.write(data.as_bytes()).unwrap();
 }
@@ -132,7 +132,7 @@ fn copy_mockups_js(js_path: Path) {
 //     create_dir(&js_path);
 //
 //     let target_path     = Path::new(js_path.join("less.min.js"));
-//     let mut target_file = File::create(&target_path).unwrap();
+//     let mut target_file = File::create(&target_path);
 //     let data            = include_str!("js/less.min.js");
 //     let _               = target_file.write(data.as_bytes()).unwrap();
 // }
@@ -141,7 +141,7 @@ fn copy_logo_img(img_path: Path) {
     create_dir(&img_path);
 
     let target_path     = Path::new(img_path.join("logo.png"));
-    let mut target_file = File::create(&target_path).unwrap();
+    let mut target_file = File::create(&target_path);
     let data            = include_bin!("img/logo.png");
     let _               = target_file.write(data).unwrap();
 }
@@ -150,7 +150,7 @@ fn copy_icon_img(img_path: Path) {
     create_dir(&img_path);
 
     let target_path     = Path::new(img_path.join("icon.png"));
-    let mut target_file = File::create(&target_path).unwrap();
+    let mut target_file = File::create(&target_path);
     let data            = include_bin!("img/icon.png");
     let _               = target_file.write(data).unwrap();
 }

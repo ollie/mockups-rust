@@ -51,7 +51,7 @@ fn resize_image(source_image_path: Path, target_image_path: Path) {
     let ratio           = nwidth as f64 / width as f64;
     let nheight         = (height as f64 * ratio).round() as u32;
     let resized_img     = img.resize(nwidth, nheight, imageops::Nearest);
-    let fout            = File::create(&target_image_path).unwrap();
+    let fout            = File::create(&target_image_path);
     let _               = resized_img.save(fout, image::PNG);
 
     println!("{} -> {}", source_image_path.display(), target_image_path.display());
