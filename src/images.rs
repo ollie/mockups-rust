@@ -20,6 +20,9 @@ pub fn generate_thumbs(project_path: &Path, categories: &Vec<Category>) {
     // Create thumbs directory
     create_dir(&thumbs_path);
 
+    let (tx, rx): (Sender<()>, Receiver<()>) = channel();
+    let mut total = 0u8;
+
     for category in categories.iter() {
         let category_path = thumbs_path.join(category.file.clone());
 
@@ -36,12 +39,22 @@ pub fn generate_thumbs(project_path: &Path, categories: &Vec<Category>) {
                     .join(image.category.clone())
                     .join(image.file.clone());
 
+                total += 1;
+                let tx = tx.clone();
+
                 spawn(proc() {
                     resize_image(source_image_path, target_image_path);
+                    tx.send(());
                 });
             }
         }
     }
+
+    for _ in range(0u8, total) {
+        rx.recv();
+    }
+
+    print!("\n");
 }
 
 fn resize_image(source_image_path: Path, target_image_path: Path) {
@@ -54,5 +67,7 @@ fn resize_image(source_image_path: Path, target_image_path: Path) {
     let fout            = File::create(&target_image_path);
     let _               = resized_img.save(fout, image::PNG);
 
-    println!("{} -> {}", source_image_path.display(), target_image_path.display());
+    print!(".");
+    // If debug flag
+    // println!("{} -> {}", source_image_path.display(), target_image_path.display());
 }

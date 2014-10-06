@@ -50,9 +50,10 @@ impl Category {
     /// I need additional fields on the datastructure so I went with a struct
     /// instead of a HashMap.
     fn add_section_image(&mut self, section_file: String, filename: &str, number: u8) {
-        let section_file_w_ext = section_file.clone().append(".html");
+        let mut section_file_w_ext = section_file.clone();
+        section_file_w_ext.push_str(".html");
 
-        for section in self.sections.mut_iter() {
+        for section in self.sections.iter_mut() {
             if section.file == section_file_w_ext {
                 section.images.push(Image::new(self.file.clone(), filename, number));
                 return;
@@ -72,11 +73,11 @@ impl Category {
         let mut words: Vec<&str> = file.as_slice().split('-').collect();
         let mut cap_words        = Vec::new();
 
-        for word in words.mut_iter() {
-            let first = char::to_uppercase(word.char_at(0)).to_string();
-            let rest  = word.slice_chars(1, word.len());
+        for word in words.iter_mut() {
+            let mut cap_word = char::to_uppercase(word.char_at(0)).to_string();
+            let rest         = word.slice_chars(1, word.len());
 
-            let cap_word = first.append(rest);
+            cap_word.push_str(rest);
             cap_words.push(cap_word);
         }
 
@@ -160,7 +161,7 @@ fn read_images(category_path: Path, category: &mut Category) {
 
     category.sections.sort_by(|a, b| a.name.cmp(&b.name) );
 
-    for section in category.sections.mut_iter() {
+    for section in category.sections.iter_mut() {
         section.images.sort_by(|a, b| a.number.cmp(&b.number) );
     }
 }

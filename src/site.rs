@@ -29,22 +29,22 @@ struct SiteData<'a> {
 
 #[deriving(Encodable)]
 struct CategoryData<'a> {
-    app_name:   &'a str,
+    app_name:    &'a str,
     icon_exists: &'a bool,
-    categories: &'a Vec<Category>,
-    category:   &'a Category,
-    sections:   &'a Vec<Section>,
+    categories:  &'a Vec<Category>,
+    category:    &'a Category,
+    sections:    &'a Vec<Section>,
 }
 
 #[deriving(Encodable)]
 struct SectionData<'a> {
-    app_name:   &'a str,
+    app_name:    &'a str,
     icon_exists: &'a bool,
-    categories: &'a Vec<Category>,
-    category:   &'a Category,
-    sections:   &'a Vec<Section>,
-    section:    &'a Section,
-    images:     &'a Vec<Image>,
+    categories:  &'a Vec<Category>,
+    category:    &'a Category,
+    sections:    &'a Vec<Section>,
+    section:     &'a Section,
+    images:      &'a Vec<Image>,
 }
 
 /// Generate the HTML file and directory structure. External assets like
