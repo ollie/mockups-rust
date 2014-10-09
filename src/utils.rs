@@ -3,7 +3,7 @@
 use std::io::{
     fs,
     File,
-    UserDir,
+    USER_DIR,
     IoResult,
 };
 
@@ -14,7 +14,7 @@ pub fn create_dir(path: &Path) {
         return;
     }
 
-    let _ = fs::mkdir(path, UserDir).unwrap();
+    let _ = fs::mkdir(path, USER_DIR).unwrap();
 }
 
 pub fn create_file(path: &Path) -> IoResult<File> {
