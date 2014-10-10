@@ -1,6 +1,9 @@
 //! Copy images and resize them by half.
 
 use std::io::File;
+use std::sync::TaskPool;
+use std::io::stdio::flush;
+use std::os::num_cpus;
 
 use image;
 
@@ -20,9 +23,17 @@ pub fn generate_thumbs(project_path: &Path, categories: &Vec<Category>) {
     // Create thumbs directory
     create_dir(&thumbs_path);
 
+    // Task pool so we don't overwhelm the system with hundreds of threads.
+    // Use as many threads as there are CPU cores + the main thread.
+    let f: || -> proc(uint):Send -> uint = || { proc(i) { i } };
+    let mut task_pool = TaskPool::new(num_cpus(), f);
+
+    // We need channels so we can wait until the tasks are done.
     let (tx, rx): (Sender<()>, Receiver<()>) = channel();
     let mut total = 0u8;
 
+    // Loop over the categories/sections/images and spawn a new task
+    // for thumb generation.
     for category in categories.iter() {
         let category_path = thumbs_path.join(category.file.clone());
 
@@ -42,7 +53,7 @@ pub fn generate_thumbs(project_path: &Path, categories: &Vec<Category>) {
                 total += 1;
                 let tx = tx.clone();
 
-                spawn(proc() {
+                task_pool.execute(proc(_) {
                     resize_image(source_image_path, target_image_path);
                     tx.send(());
                 });
@@ -68,6 +79,6 @@ fn resize_image(source_image_path: Path, target_image_path: Path) {
     let _               = resized_img.save(fout, image::PNG);
 
     print!(".");
-    // If debug flag
+    flush();
     // println!("{} -> {}", source_image_path.display(), target_image_path.display());
 }
