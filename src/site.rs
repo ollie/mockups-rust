@@ -8,44 +8,20 @@ use std::io::{
 use std::io::fs::PathExtensions;
 
 use mustache;
+use mustache::{
+    MapBuilder,
+    VecBuilder,
+};
 
 use structure::{
     Category,
     Section,
-    Image,
 };
 
 use utils::{
     create_dir,
     create_file,
 };
-
-#[deriving(Encodable)]
-struct SiteData<'a> {
-    app_name:    &'a str,
-    icon_exists: &'a bool,
-    categories:  &'a Vec<Category>,
-}
-
-#[deriving(Encodable)]
-struct CategoryData<'a> {
-    app_name:    &'a str,
-    icon_exists: &'a bool,
-    categories:  &'a Vec<Category>,
-    category:    &'a Category,
-    sections:    &'a Vec<Section>,
-}
-
-#[deriving(Encodable)]
-struct SectionData<'a> {
-    app_name:    &'a str,
-    icon_exists: &'a bool,
-    categories:  &'a Vec<Category>,
-    category:    &'a Category,
-    sections:    &'a Vec<Section>,
-    section:     &'a Section,
-    images:      &'a Vec<Image>,
-}
 
 /// Generate the HTML file and directory structure. External assets like
 /// styles, images and JavaScripts need to be embedded in the binary
@@ -93,7 +69,6 @@ pub fn generate(project_path: &Path, categories: &Vec<Category>) {
 fn copy_assets(site_path: &Path) {
     copy_styles_css(site_path.join("css"));
     // copy_styles_less(site_path.join("css"));
-    copy_mockups_js(site_path.join("js"));
     // copy_less_min_js(site_path.join("js"));
     copy_logo_img(site_path.join("img"));
     copy_icon_img(site_path.join("img"));
@@ -117,15 +92,6 @@ fn copy_styles_css(css_path: Path) {
 //     let data            = include_str!("css/styles.less");
 //     let _               = target_file.write(data.as_bytes()).unwrap();
 // }
-
-fn copy_mockups_js(js_path: Path) {
-    create_dir(&js_path);
-
-    let target_path     = Path::new(js_path.join("mockups.js"));
-    let mut target_file = File::create(&target_path);
-    let data            = include_str!("js/mockups.js");
-    let _               = target_file.write(data.as_bytes()).unwrap();
-}
 
 // For development purposes
 // fn copy_less_min_js(js_path: Path) {
@@ -155,6 +121,41 @@ fn copy_icon_img(img_path: Path) {
     let _               = target_file.write(data).unwrap();
 }
 
+fn aside_categories<'a>(categories: &Vec<Category>, selected: Option<String>) -> VecBuilder<'a> {
+    let selected_category = selected.unwrap_or(String::new());
+
+    let mut builder = VecBuilder::new();
+
+    for category in categories.iter() {
+        builder = builder.push_map(|builder| {
+            builder
+                .insert_str("file",      category.file.clone())
+                .insert_str("name",      category.name.clone())
+                .insert_bool("selected", selected_category == category.name.clone())
+        });
+    }
+
+    builder
+}
+
+fn aside_sections<'a>(sections: &Vec<Section>, selected: Option<String>) -> VecBuilder<'a> {
+    let selected_section = selected.unwrap_or(String::new());
+
+    let mut builder = VecBuilder::new();
+
+    for section in sections.iter() {
+        builder = builder.push_map(|builder| {
+            builder
+                .insert_str("file",      section.file.clone())
+                .insert_str("name",      section.name.clone())
+                .insert_str("class",     section.class.clone())
+                .insert_bool("selected", selected_section == section.name.clone())
+        });
+    }
+
+    builder
+}
+
 fn fill_in_site_index_file(
     file_result: IoResult<File>,
     app_name:    &str,
@@ -163,14 +164,16 @@ fn fill_in_site_index_file(
 ) {
     let mut file = file_result.unwrap();
 
-    let data = SiteData {
-        app_name:    app_name,
-        icon_exists: icon_exists,
-        categories:  categories,
-    };
+    let data = MapBuilder::new()
+        .insert_str("app_name",         app_name.clone())
+        .insert_bool("icon_exists",     icon_exists.clone())
+        .insert_vec("aside_categories", |_| {
+            aside_categories(categories, None)
+        })
+        .build();
 
     let template = mustache::compile_str(include_str!("templates/site.mustache"));
-    let _        = template.render(&mut file, &data);
+    let _        = template.render_data(&mut file, &data);
 }
 
 fn fill_in_category_index_file(
@@ -182,16 +185,45 @@ fn fill_in_category_index_file(
 ) {
     let mut file = file_result.unwrap();
 
-    let data = CategoryData {
-        app_name:    app_name,
-        icon_exists: icon_exists,
-        categories:  categories,
-        category:    category,
-        sections:    &category.sections,
-    };
+    let data = MapBuilder::new()
+        .insert_str("app_name",         app_name.clone())
+        .insert_bool("icon_exists",     icon_exists.clone())
+        .insert_str("category_name",    category.name.clone())
+        .insert_vec("aside_categories", |_| {
+            aside_categories(categories, Some(category.name.clone()))
+        })
+        .insert_vec("aside_sections", |_| {
+            aside_sections(&category.sections, None)
+        })
+        .insert_vec("sections", |mut builder| {
+            for section in category.sections.iter() {
+                builder = builder.push_map(|builder| {
+                    builder
+                        .insert_str("file",  section.file.clone())
+                        .insert_str("name",  section.name.clone())
+                        .insert_str("class", section.class.clone())
+                        .insert_vec("images", |mut builder| {
+                            for image in section.images.iter() {
+                                builder = builder.push_map(|builder| {
+                                    builder
+                                        .insert_str("category", image.category.clone())
+                                        .insert_str("file",     image.file.clone())
+                                        .insert_str("file_url", image.file_url.clone())
+                                        .insert("number",       &image.number).unwrap()
+                                });
+                            }
+
+                            builder
+                        })
+                });
+            }
+
+            builder
+        })
+        .build();
 
     let template = mustache::compile_str(include_str!("templates/category.mustache"));
-    let _        = template.render(&mut file, &data);
+    let _        = template.render_data(&mut file, &data);
 }
 
 fn fill_in_section_file(
@@ -204,16 +236,32 @@ fn fill_in_section_file(
 ) {
     let mut file = file_result.unwrap();
 
-    let data = SectionData {
-        app_name:    app_name,
-        icon_exists: icon_exists,
-        categories:  categories,
-        category:    category,
-        sections:    &category.sections,
-        section:     section,
-        images:      &section.images,
-    };
+    let data = MapBuilder::new()
+        .insert_str("app_name",      app_name.clone())
+        .insert_bool("icon_exists",  icon_exists.clone())
+        .insert_str("category_name", category.name.clone())
+        .insert_str("section_name",  section.name.clone())
+        .insert_vec("aside_categories", |_| {
+            aside_categories(categories, Some(category.name.clone()))
+        })
+        .insert_vec("aside_sections", |_| {
+            aside_sections(&category.sections, Some(section.name.clone()))
+        })
+        .insert_vec("images", |mut builder| {
+            for image in section.images.iter() {
+                builder = builder.push_map(|builder| {
+                    builder
+                        .insert_str("category", image.category.clone())
+                        .insert_str("file",     image.file.clone())
+                        .insert_str("file_url", image.file_url.clone())
+                        .insert("number",       &image.number).unwrap()
+                });
+            }
+
+            builder
+        })
+        .build();
 
     let template = mustache::compile_str(include_str!("templates/section.mustache"));
-    let _        = template.render(&mut file, &data);
+    let _        = template.render_data(&mut file, &data);
 }

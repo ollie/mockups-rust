@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>{{#category}}{{name}}{{/category}} &ndash; {{app_name}}</title>
+    <title>{{category_name}} &ndash; {{app_name}}</title>
     <link rel="stylesheet" href="../css/styles.css">
     {{! For development purposes }}
     {{! <link rel="stylesheet/less" href="../css/styles.less" /> }}
@@ -31,19 +31,19 @@
     </nav>
 
     <aside>
-      <ul id="js-categories-menu" class="categories-menu">
-      {{#categories}}
-        <li class="{{file}}">
+      <ul class="categories-menu">
+      {{#aside_categories}}
+        <li class="{{file}}{{#selected}} selected{{/selected}}">
           <a href="../{{file}}/index.html">{{name}}</a>
         </li>
-      {{/categories}}
+      {{/aside_categories}}
       </ul>
-      <ul id="js-sections-menu" class="sections-menu">
-      {{#sections}}
+      <ul class="sections-menu">
+      {{#aside_sections}}
         <li class="{{class}}">
           <a href="{{file}}">{{name}}</a>
         </li>
-      {{/sections}}
+      {{/aside_sections}}
       </ul>
     </aside>
 
@@ -68,11 +68,6 @@
       {{/sections}}
       </ul>
     </section>
-
-    <script src="../js/mockups.js"></script>
-    <script>
-      markItemAsSelected('js-categories-menu', '{{#category}}{{file}}{{/category}}');
-    </script>
 
     {{! For development purposes }}
     {{! <script src="../js/less.min.js"></script> }}
