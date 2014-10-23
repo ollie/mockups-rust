@@ -2,31 +2,31 @@
 name = "mockups"
 version = "0.0.6"
 dependencies = [
- "image 0.0.0 (git+https://github.com/PistonDevelopers/rust-image.git#57d900b7dc1b403fed445deef6385ad44fb9fed8)",
- "rust-mustache 0.3.0 (git+https://github.com/tsurai/rust-mustache.git#517c69e3e525c7a06eb45982c5e99777c5923b44)",
- "url 0.1.0 (git+https://github.com/servo/rust-url.git#55b18b796ef2cef5490069dd450c60c2cc2c0c1b)",
+ "image 0.0.0 (git+https://github.com/PistonDevelopers/rust-image.git#2184609a44f38b659aa65dafe690ed380c20f538)",
+ "rust-mustache 0.3.0 (git+https://github.com/jroesch/rust-mustache.git#5fadf913376754225d8b0961049a6638afb6b329)",
+ "url 0.1.0 (git+https://github.com/servo/rust-url.git#7f1991d847fb8cf8648def2ff121bae90b89131f)",
 ]
 
 [[package]]
 name = "encoding"
 version = "0.1.0"
-source = "git+https://github.com/lifthrasiir/rust-encoding#ff55916fec8b5bf8667a74d5a060c8c951f28fe0"
+source = "git+https://github.com/lifthrasiir/rust-encoding#dd6183298e20b038fcd1cc4ab91405b3c72e49db"
 
 [[package]]
 name = "image"
 version = "0.0.0"
-source = "git+https://github.com/PistonDevelopers/rust-image.git#57d900b7dc1b403fed445deef6385ad44fb9fed8"
+source = "git+https://github.com/PistonDevelopers/rust-image.git#2184609a44f38b659aa65dafe690ed380c20f538"
 
 [[package]]
 name = "rust-mustache"
 version = "0.3.0"
-source = "git+https://github.com/tsurai/rust-mustache.git#517c69e3e525c7a06eb45982c5e99777c5923b44"
+source = "git+https://github.com/jroesch/rust-mustache.git#5fadf913376754225d8b0961049a6638afb6b329"
 
 [[package]]
 name = "url"
 version = "0.1.0"
-source = "git+https://github.com/servo/rust-url.git#55b18b796ef2cef5490069dd450c60c2cc2c0c1b"
+source = "git+https://github.com/servo/rust-url.git#7f1991d847fb8cf8648def2ff121bae90b89131f"
 dependencies = [
- "encoding 0.1.0 (git+https://github.com/lifthrasiir/rust-encoding#ff55916fec8b5bf8667a74d5a060c8c951f28fe0)",
+ "encoding 0.1.0 (git+https://github.com/lifthrasiir/rust-encoding#dd6183298e20b038fcd1cc4ab91405b3c72e49db)",
 ]
 
