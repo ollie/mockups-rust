@@ -108,7 +108,7 @@ fn copy_logo_img(img_path: Path) {
 
     let target_path     = Path::new(img_path.join("logo.png"));
     let mut target_file = File::create(&target_path);
-    let data            = include_bin!("img/logo.png");
+    let data            = include_bytes!("img/logo.png");
     let _               = target_file.write(data).unwrap();
 }
 
@@ -117,7 +117,7 @@ fn copy_icon_img(img_path: Path) {
 
     let target_path     = Path::new(img_path.join("icon.png"));
     let mut target_file = File::create(&target_path);
-    let data            = include_bin!("img/icon.png");
+    let data            = include_bytes!("img/icon.png");
     let _               = target_file.write(data).unwrap();
 }
 

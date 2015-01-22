@@ -14,9 +14,9 @@ pub fn get_options() -> getopts::Matches {
     process_options(program, option_args)
 }
 
-/// Define individual options, fail if incorrect.
+/// Define individual options, panic if incorrect.
 pub fn process_options(program: &str, option_args: &[String]) -> getopts::Matches {
-    let opts = [
+    let opts = &[
         getopts::reqopt("d",  "dir",  "set path to images directory", "PATH"),
         getopts::optflag("h", "help", "print this help")
     ];
@@ -26,7 +26,7 @@ pub fn process_options(program: &str, option_args: &[String]) -> getopts::Matche
         Err(why) => {
             println!("{}", why);
             println!("{}", getopts::usage(program, opts));
-            fail!();
+            panic!();
         }
     };
 

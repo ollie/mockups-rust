@@ -4,17 +4,15 @@ name = "mockups"
 version = "0.0.6"
 authors = ["Oldrich Vetesnik <oldrich.vetesnik@gmail.com>"]
 
-[dependencies.url]
-
-git = "https://github.com/servo/rust-url.git"
-
-[dependencies.image]
-
-git = "https://github.com/PistonDevelopers/rust-image.git"
+[dependencies]
+url = "0.2"
+image = "0.2"
+regex_macros = "0.1"
+regex = "0.1"
+getopts = "0.1"
+rustc-serialize = "0.2"
+# mustache = "0.4"
 
 [dependencies.rust-mustache]
 
-# Upstream, try when patched
-# git = "https://github.com/erickt/rust-mustache.git"
-# Bugfixes
-git = "https://github.com/jroesch/rust-mustache.git"
+git = "https://github.com/ProtectedMode/rust-mustache.git"

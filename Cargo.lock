@@ -2,31 +2,70 @@
 name = "mockups"
 version = "0.0.6"
 dependencies = [
- "image 0.0.0 (git+https://github.com/PistonDevelopers/rust-image.git#2184609a44f38b659aa65dafe690ed380c20f538)",
- "rust-mustache 0.3.0 (git+https://github.com/jroesch/rust-mustache.git#5fadf913376754225d8b0961049a6638afb6b329)",
- "url 0.1.0 (git+https://github.com/servo/rust-url.git#7f1991d847fb8cf8648def2ff121bae90b89131f)",
+ "getopts 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "image 0.2.0-alpha.6 (registry+https://github.com/rust-lang/crates.io-index)",
+ "regex 0.1.10 (registry+https://github.com/rust-lang/crates.io-index)",
+ "regex_macros 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rust-mustache 0.3.0 (git+https://github.com/ProtectedMode/rust-mustache.git)",
+ "rustc-serialize 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)",
+ "url 0.2.16 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
-name = "encoding"
-version = "0.1.0"
-source = "git+https://github.com/lifthrasiir/rust-encoding#dd6183298e20b038fcd1cc4ab91405b3c72e49db"
+name = "getopts"
+version = "0.1.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "image"
-version = "0.0.0"
-source = "git+https://github.com/PistonDevelopers/rust-image.git#2184609a44f38b659aa65dafe690ed380c20f538"
+version = "0.2.0-alpha.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "num 0.1.9 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "matches"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "num"
+version = "0.1.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "rustc-serialize 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "regex"
+version = "0.1.10"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "regex_macros"
+version = "0.1.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "regex 0.1.10 (registry+https://github.com/rust-lang/crates.io-index)",
+]
 
 [[package]]
 name = "rust-mustache"
 version = "0.3.0"
-source = "git+https://github.com/jroesch/rust-mustache.git#5fadf913376754225d8b0961049a6638afb6b329"
+source = "git+https://github.com/ProtectedMode/rust-mustache.git#90f2ae04be6e93c25016dd8c0f03a3f80cfa491b"
+
+[[package]]
+name = "rustc-serialize"
+version = "0.2.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "url"
-version = "0.1.0"
-source = "git+https://github.com/servo/rust-url.git#7f1991d847fb8cf8648def2ff121bae90b89131f"
+version = "0.2.16"
+source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "encoding 0.1.0 (git+https://github.com/lifthrasiir/rust-encoding#dd6183298e20b038fcd1cc4ab91405b3c72e49db)",
+ "matches 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rustc-serialize 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 

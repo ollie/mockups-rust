@@ -2,8 +2,10 @@
 
 use std::io::File;
 use std::sync::TaskPool;
+use std::sync::mpsc::channel;
 use std::io::stdio::flush;
 use std::os::num_cpus;
+use std::num::Float;
 
 use image;
 
@@ -25,11 +27,10 @@ pub fn generate_thumbs(project_path: &Path, categories: &Vec<Category>) {
 
     // Task pool so we don't overwhelm the system with hundreds of threads.
     // Use as many threads as there are CPU cores + the main thread.
-    let f: || -> proc(uint):Send -> uint = || { proc(i) { i } };
-    let mut task_pool = TaskPool::new(num_cpus(), f);
+    let task_pool = TaskPool::new(num_cpus());
 
     // We need channels so we can wait until the tasks are done.
-    let (tx, rx): (Sender<()>, Receiver<()>) = channel();
+    let (tx, rx) = channel();
     let mut total = 0u8;
 
     // Loop over the categories/sections/images and spawn a new task
@@ -53,16 +54,16 @@ pub fn generate_thumbs(project_path: &Path, categories: &Vec<Category>) {
                 total += 1;
                 let tx = tx.clone();
 
-                task_pool.execute(proc(_) {
+                task_pool.execute(move || {
                     resize_image(source_image_path, target_image_path);
-                    tx.send(());
+                    let _ = tx.send(());
                 });
             }
         }
     }
 
     for _ in range(0u8, total) {
-        rx.recv();
+        let _ = rx.recv();
     }
 
     print!("\n");

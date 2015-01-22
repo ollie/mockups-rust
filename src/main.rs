@@ -80,16 +80,14 @@
 //! mockups -d "~/path/to/Project Name"
 //! ```
 
-#![feature(phase)]
-
-// Shipped with Rust
-extern crate getopts;
-#[phase(plugin)]
-extern crate regex_macros;
-extern crate regex;
-extern crate serialize;
+#![feature(plugin)]
 
 // External libraries
+#[plugin] #[no_link]
+extern crate regex_macros;
+extern crate regex;
+extern crate "rustc-serialize" as rustc_serialize;
+extern crate getopts;
 extern crate url;
 extern crate image;
 extern crate mustache;

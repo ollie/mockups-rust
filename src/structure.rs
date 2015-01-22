@@ -4,7 +4,9 @@
 use std::collections::HashMap;
 use std::io::fs;
 use std::io::fs::PathExtensions;
-use std::char;
+use std::char::CharExt;
+use std::str::FromStr;
+use std::string::ToString;
 
 use url::percent_encoding::{
     FORM_URLENCODED_ENCODE_SET,
@@ -12,7 +14,6 @@ use url::percent_encoding::{
 };
 
 /// Eg `iPhone Portrait`, contains sections (which contain images).
-#[deriving(Encodable)]
 pub struct Category {
     pub file:     String,
     pub name:     String,
@@ -20,7 +21,6 @@ pub struct Category {
 }
 
 /// Eg `Dashboard`, contains images.
-#[deriving(Encodable)]
 pub struct Section {
     pub file:   String,
     pub name:   String,
@@ -29,7 +29,6 @@ pub struct Section {
 }
 
 /// Eg `XY-[dashboard]-1.png`.
-#[deriving(Encodable)]
 pub struct Image {
     pub category: String,
     pub file:     String,
@@ -74,7 +73,7 @@ impl Category {
         let mut cap_words        = Vec::new();
 
         for word in words.iter_mut() {
-            let mut cap_word = char::to_uppercase(word.char_at(0)).to_string();
+            let mut cap_word = CharExt::to_uppercase(word.char_at(0)).to_string();
             let rest         = word.slice_chars(1, word.len());
 
             cap_word.push_str(rest);
@@ -150,8 +149,8 @@ fn read_images(category_path: Path, category: &mut Category) {
 
         match image_regex.captures(filename) {
             Some(caps) => {
-                let section_file = caps.name("section").to_string();
-                let number: u8   = from_str(caps.name("number")).unwrap();
+                let section_file = ToString::to_string(caps.name("section").unwrap());
+                let number: u8   = FromStr::from_str(caps.name("number").unwrap()).unwrap();
 
                 category.add_section_image(section_file, filename, number);
             },
