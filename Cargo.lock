@@ -1,6 +1,6 @@
 [root]
 name = "mockups"
-version = "0.0.6"
+version = "0.0.7"
 dependencies = [
  "docopt 0.6.67 (registry+https://github.com/rust-lang/crates.io-index)",
  "image 0.3.11 (git+https://github.com/PistonDevelopers/image.git?rev=720dcc9d23058d66201baa8f7e2671c4fe21bb5e)",
