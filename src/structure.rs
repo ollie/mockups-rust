@@ -140,6 +140,7 @@ pub fn read_directories(project_path: &Path, categories: &mut Vec<Category>) {
 }
 
 /// Extract the section name from the image and insert it into the category.
+/// TODO: walk_dir is a) unstable and b) it walks recursively, which is not wanted. Find a way around.
 fn read_images(category_path: &Path, category: &mut Category) {
     let paths = match fs::walk_dir(&category_path) {
         Ok(paths) => paths.map(|path| path.unwrap()),

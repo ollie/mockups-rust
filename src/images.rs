@@ -16,7 +16,7 @@ use image::{
 };
 
 use structure::Category;
-use utils::create_dir;
+use utils;
 
 /// Generate smaller versions of mockup images.
 /// `iphone-portrait/XY-[section-a]-0.png -> site/thumbs/iphone-portrait/XY-[section-a]-0.png`
@@ -24,11 +24,11 @@ pub fn generate_thumbs(project_path: &Path, categories: &Vec<Category>) {
     let thumbs_path = project_path.join("site").join("thumbs");
 
     // Create thumbs directory
-    create_dir(&thumbs_path);
+    utils::create_dir(&thumbs_path);
 
     // Task pool so we don't overwhelm the system with hundreds of threads.
     // Use as many threads as there are CPU cores + the main thread.
-    let num_cpus = sys_info::cpu_num().unwrap() as usize;
+    let num_cpus = sys_info::cpu_num().ok().expect("Cannot deternimne number of cores") as usize;
     let pool     = ThreadPool::new(num_cpus);
 
     // We need channels so we can wait until the tasks are done.
@@ -41,13 +41,18 @@ pub fn generate_thumbs(project_path: &Path, categories: &Vec<Category>) {
         let category_path = thumbs_path.join(category.file.clone());
 
         // The site/thumbs/iphone-portrait directory
-        create_dir(&category_path);
+        utils::create_dir(&category_path);
 
         for section in category.sections.iter() {
             for image in section.images.iter() {
                 let source_image_path = project_path
                     .join(image.category.clone())
                     .join(image.file.clone());
+
+                if !utils::is_file(&source_image_path) {
+                    println!("{:?} does not exist!", source_image_path);
+                    continue;
+                }
 
                 let target_image_path = thumbs_path
                     .join(image.category.clone())
@@ -72,14 +77,23 @@ pub fn generate_thumbs(project_path: &Path, categories: &Vec<Category>) {
 }
 
 fn resize_image(source_image_path: &Path, target_image_path: &Path) {
-    let img             = image::open(source_image_path).unwrap();
+    let img = image::open(source_image_path)
+        .ok()
+        .expect(&format!("Image {:?} does not exist!", source_image_path));
+
     let (width, height) = img.dimensions();
     let nwidth          = width / 2;
     let ratio           = nwidth as f64 / width as f64;
     let nheight         = (height as f64 * ratio).round() as u32;
     let resized_img     = img.resize(nwidth, nheight, imageops::Nearest);
-    let ref mut fout    = File::create(target_image_path).unwrap();
-    let _               = resized_img.save(fout, image::PNG).unwrap();
+
+    let ref mut fout = File::create(target_image_path)
+        .ok()
+        .expect(&format!("Cannot create file {:?}", target_image_path));
+
+    let _  = resized_img.save(fout, image::PNG)
+        .ok()
+        .expect(&format!("Cannot save image to {:?}", target_image_path));
 
     print!(".");
     // println!("{:?} -> {:?}", source_image_path, target_image_path);

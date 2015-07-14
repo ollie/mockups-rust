@@ -204,8 +204,7 @@ And then build the crate:
 
 ## TODO
 
-* Refactor site generator a bit?
-* Use mustache::MapBuilder? Seems I cannot use it with for loop.
+Refactor things a bit as it is a tad ugly. :-)
 
 [releases]:  https://github.com/ollie/mockups-rust/releases
 [rust-url]:  https://github.com/rust-lang/rust
