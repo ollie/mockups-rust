@@ -2,16 +2,18 @@
 //! Currently translates a 2-level structure into a 3-level structure.
 
 use std::collections::HashMap;
-use std::io::fs;
-use std::io::fs::PathExtensions;
-use std::char::CharExt;
+use std::path::Path;
+use std::fs;
 use std::str::FromStr;
 use std::string::ToString;
+use regex::Regex;
 
 use url::percent_encoding::{
     FORM_URLENCODED_ENCODE_SET,
     utf8_percent_encode,
 };
+
+use utils;
 
 /// Eg `iPhone Portrait`, contains sections (which contain images).
 pub struct Category {
@@ -69,18 +71,23 @@ impl Category {
     /// hyphen ["new", "post"], capitalize words ["New", "Post"], join them
     /// by space "New Post".
     fn name_from_file(&self, file: String) -> String {
-        let mut words: Vec<&str> = file.as_slice().split('-').collect();
-        let mut cap_words        = Vec::new();
+        file
+            .split('-')
+            .map(|word| {
+                let mut capitalized = String::new();
 
-        for word in words.iter_mut() {
-            let mut cap_word = CharExt::to_uppercase(word.char_at(0)).to_string();
-            let rest         = word.slice_chars(1, word.len());
+                for (index, ch) in word.char_indices() {
+                    if index == 0 {
+                        capitalized.push_str(&ch.to_uppercase().collect::<String>());
+                    } else {
+                        capitalized.push(ch);
+                    };
+                }
 
-            cap_word.push_str(rest);
-            cap_words.push(cap_word);
-        }
-
-        cap_words.connect(" ")
+                capitalized
+            })
+            .collect::<Vec<String>>()
+            .connect(" ")
     }
 }
 
@@ -99,8 +106,8 @@ impl Image {
     fn new(category: String, file: &str, number: u8) -> Image {
         Image {
             category: category,
-            file:     String::from_str(file),
-            file_url: utf8_percent_encode(file.as_slice(), FORM_URLENCODED_ENCODE_SET),
+            file:     file.to_string(),
+            file_url: utf8_percent_encode(file, FORM_URLENCODED_ENCODE_SET),
             number:   number
         }
     }
@@ -118,13 +125,14 @@ pub fn read_directories(project_path: &Path, categories: &mut Vec<Category>) {
     for (category_file, category_name) in possible_categories.iter() {
         let category_path = project_path.join(*category_file);
 
-        if !category_path.is_dir() {
+        if !utils::is_dir(&category_path) {
+            println!("{:?} not found", category_path);
             continue;
         }
 
         let mut category = Category::new(*category_file, *category_name);
 
-        read_images(category_path, &mut category);
+        read_images(&category_path, &mut category);
         categories.push(category);
     }
 
@@ -132,20 +140,20 @@ pub fn read_directories(project_path: &Path, categories: &mut Vec<Category>) {
 }
 
 /// Extract the section name from the image and insert it into the category.
-fn read_images(category_path: Path, category: &mut Category) {
-    let mut paths = match fs::walk_dir(&category_path) {
-        Ok(paths) => paths,
+fn read_images(category_path: &Path, category: &mut Category) {
+    let paths = match fs::walk_dir(&category_path) {
+        Ok(paths) => paths.map(|path| path.unwrap()),
         Err(_)    => return
     };
 
-    let image_regex = regex!(r"\A[A-Z]{2}-\[(?P<section>[\w-]+)\]-(?P<number>\d+)\.png\z");
+    let image_regex = Regex::new(r"\A[A-Z]{2}-\[(?P<section>[\w-]+)\]-(?P<number>\d+)\.png\z").unwrap();
 
     for path in paths {
-        if !path.is_file() {
+        if !utils::is_file(&path.path()) {
             continue;
         }
 
-        let filename = path.filename_str().unwrap();
+        let filename = &path.file_name().into_string().unwrap();
 
         match image_regex.captures(filename) {
             Some(caps) => {

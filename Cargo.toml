@@ -1,18 +1,21 @@
 [package]
-
 name = "mockups"
 version = "0.0.6"
 authors = ["Oldrich Vetesnik <oldrich.vetesnik@gmail.com>"]
 
 [dependencies]
 url = "0.2"
-image = "0.2"
-regex_macros = "0.1"
+# Image resize is currently (0.3.11) being uncompressed,
+# try when new version comes out.
+# image = "0.3"
+# regex_macros = "0.1"
 regex = "0.1"
-getopts = "0.1"
-rustc-serialize = "0.2"
-# mustache = "0.4"
+docopt = "0.6"
+rustc-serialize = "0.3"
+mustache = "0.6"
+threadpool = "0.1"
+sys-info = "0.3"
 
-[dependencies.rust-mustache]
-
-git = "https://github.com/ProtectedMode/rust-mustache.git"
+[dependencies.image]
+git = "https://github.com/PistonDevelopers/image.git"
+rev = "720dcc9d23058d66201baa8f7e2671c4fe21bb5e"

@@ -1,11 +1,12 @@
 //! Copy images and resize them by half.
 
-use std::io::File;
-use std::sync::TaskPool;
+use std::fs::File;
+use std::path::Path;
+use threadpool::ThreadPool;
 use std::sync::mpsc::channel;
-use std::io::stdio::flush;
-use std::os::num_cpus;
-use std::num::Float;
+use std::io::Write;
+use std::io;
+use sys_info;
 
 use image;
 
@@ -27,7 +28,8 @@ pub fn generate_thumbs(project_path: &Path, categories: &Vec<Category>) {
 
     // Task pool so we don't overwhelm the system with hundreds of threads.
     // Use as many threads as there are CPU cores + the main thread.
-    let task_pool = TaskPool::new(num_cpus());
+    let num_cpus = sys_info::cpu_num().unwrap() as usize;
+    let pool     = ThreadPool::new(num_cpus);
 
     // We need channels so we can wait until the tasks are done.
     let (tx, rx) = channel();
@@ -54,32 +56,32 @@ pub fn generate_thumbs(project_path: &Path, categories: &Vec<Category>) {
                 total += 1;
                 let tx = tx.clone();
 
-                task_pool.execute(move || {
-                    resize_image(source_image_path, target_image_path);
+                pool.execute(move || {
+                    resize_image(&source_image_path, &target_image_path);
                     let _ = tx.send(());
                 });
             }
         }
     }
 
-    for _ in range(0u8, total) {
+    for _ in 0u8..total {
         let _ = rx.recv();
     }
 
     print!("\n");
 }
 
-fn resize_image(source_image_path: Path, target_image_path: Path) {
-    let img             = image::open(&source_image_path).unwrap();
+fn resize_image(source_image_path: &Path, target_image_path: &Path) {
+    let img             = image::open(source_image_path).unwrap();
     let (width, height) = img.dimensions();
     let nwidth          = width / 2;
     let ratio           = nwidth as f64 / width as f64;
     let nheight         = (height as f64 * ratio).round() as u32;
     let resized_img     = img.resize(nwidth, nheight, imageops::Nearest);
-    let fout            = File::create(&target_image_path);
-    let _               = resized_img.save(fout, image::PNG);
+    let ref mut fout    = File::create(target_image_path).unwrap();
+    let _               = resized_img.save(fout, image::PNG).unwrap();
 
     print!(".");
-    flush();
-    // println!("{} -> {}", source_image_path.display(), target_image_path.display());
+    // println!("{:?} -> {:?}", source_image_path, target_image_path);
+    let _ = io::stdout().flush();
 }

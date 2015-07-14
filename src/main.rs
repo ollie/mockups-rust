@@ -80,27 +80,47 @@
 //! mockups -d "~/path/to/Project Name"
 //! ```
 
-#![feature(plugin)]
+#![feature(fs_walk)]
 
-// External libraries
-#[plugin] #[no_link]
-extern crate regex_macros;
 extern crate regex;
-extern crate "rustc-serialize" as rustc_serialize;
-extern crate getopts;
+extern crate rustc_serialize;
+extern crate docopt;
 extern crate url;
 extern crate image;
+extern crate threadpool;
 extern crate mustache;
+extern crate sys_info;
 
-mod options;
+use std::path::Path;
+use docopt::Docopt;
+
 mod structure;
 mod site;
 mod images;
 mod utils;
 
+static USAGE: &'static str = "
+Usage: mockups -d <directory>
+       mockups -h | --help
+";
+
+#[derive(RustcDecodable)]
+struct Args {
+    arg_directory: String
+}
+
 fn main() {
-    let options        = options::get_options();
-    let project_path   = Path::new(options.opt_str("d").unwrap());
+  let args: Args = Docopt::new(USAGE)
+        .and_then(|d| d.argv(std::env::args().into_iter()).decode())
+        .unwrap_or_else(|e| e.exit());
+
+    let project_path = Path::new(&args.arg_directory);
+
+    if !utils::is_dir(project_path) {
+        println!("{:?} is not a directory", project_path);
+        return
+    }
+
     let mut categories = Vec::new();
 
     structure::read_directories(&project_path, &mut categories);
